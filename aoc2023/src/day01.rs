@@ -1,6 +1,5 @@
-use std::any::Any;
 use shared::{Answer, Solution};
-use regex::{Regex, Captures};
+use regex::{Regex};
 
 pub struct Day01;
 
@@ -51,7 +50,7 @@ impl Solution for Day01 {
 fn matches(cap: &regex::Captures) -> u64 {
     for i in 1..10 {
         match cap.get(i) {
-            Some(val) => return (i as u64),
+            Some(_) => return i as u64,
             None  => (),
         };
     }
