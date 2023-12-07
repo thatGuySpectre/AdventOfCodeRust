@@ -5,8 +5,8 @@ use aoc2023;
 use load_data::load;
 
 fn main() {
-    let Ok(data) = load(2023, 2)
+    let Ok(data) = load(2023, 5)
         else { return; };
 
-    print!("{}", aoc2023::day02::Day02.part_2(&data));
+    print!("{}", aoc2023::day05::Day05.part_1(&data));
 }

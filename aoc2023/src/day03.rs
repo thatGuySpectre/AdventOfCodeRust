@@ -1,4 +1,3 @@
-use std::net::Shutdown::Read;
 use shared::{Answer, Solution};
 use regex::Regex;
 
@@ -6,7 +5,7 @@ pub struct Day03;
 
 impl Solution for Day03 {
     fn part_1(&self, input: &str) -> Answer {
-        let lines = input.split("\n").collect();
+        let lines: Vec<&str> = input.split("\n").collect();
 
         let pattern = Regex::new(
             // r"[^\d.^]?(\d+)[\d.]|[^\d.](\d+)[\d.$]?"
@@ -18,7 +17,7 @@ impl Solution for Day03 {
         for i in 0..lines.len() {
             for m in pattern.find_iter(lines[i]) {
                 match lines.get(i-1) {
-                    Some()
+                    _ => (),
                 }
             }
         }
