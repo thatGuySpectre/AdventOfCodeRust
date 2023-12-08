@@ -11,7 +11,7 @@ fn main() {
     let Ok(data) = load_actual(2023, 7)
         else { return; };
 
-    let result = aoc2023::day07::Day07.part_1(&data);
+    let result = aoc2023::day07::Day07.part_2(&data);
 
     let elapsed = now.elapsed();
 
