@@ -41,14 +41,14 @@ impl Solution for Day02 {
     }
 
     fn part_2(&self, input: &str) -> Answer {
-        let games: Vec<&str> = input.split("\n")
+        let games: Vec<&str> = input.split('\n')
             .collect();
 
         let re = Regex::new(r"(\d+) (\w+)").unwrap();
 
         let mut sum: u64 = 0;
 
-        for (i, game) in games.iter().enumerate() {
+        for (_, game) in games.iter().enumerate() {
             let mut min_red: u64 = 0;
             let mut min_blue: u64 = 0;
             let mut min_green: u64 = 0;

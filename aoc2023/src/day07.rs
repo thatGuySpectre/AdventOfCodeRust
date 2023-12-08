@@ -103,20 +103,14 @@ fn compare2(hand1: &(&str, u64), hand2: &(&str, u64)) -> Ordering {
         let val = o[&'J'];
         o.remove(&'J');
         let max_key = o.iter().max_by(|a, b| a.1.cmp(&b.1)).unwrap_or((&'A', &0)).0;
-        o.insert(*max_key, match o.get(&max_key) {
-            Some(x) => x,
-            None => &0
-        } + val);
+        o.insert(*max_key, o.get(max_key).unwrap_or(&0) + val);
     }
 
     if s.contains_key(&'J') {
         let val = s[&'J'];
         s.remove(&'J');
         let max_key = s.iter().max_by(|a, b| a.1.cmp(&b.1)).unwrap_or((&'A', &0)).0;
-        s.insert(*max_key, match s.get(&max_key) {
-            Some(x) => x,
-            None => &0
-        } + val);
+        s.insert(*max_key, s.get(max_key).unwrap_or(&0) + val);
     }
 
     if ( s.keys().count() < o.keys().count() ) |
@@ -124,7 +118,7 @@ fn compare2(hand1: &(&str, u64), hand2: &(&str, u64)) -> Ordering {
     else if ( s.keys().count() > o.keys().count() ) |
         ( s.values().max() < o.values().max() ) { return Ordering::Less }
 
-    let ordering = vec!['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'];
+    let ordering = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'];
 
     for (i, j) in zip(hand1.0.chars(), hand2.0.chars()) {
         if ordering.iter().position(|&x| x==i) < ordering.iter().position(|&x| x==j) {
@@ -134,5 +128,5 @@ fn compare2(hand1: &(&str, u64), hand2: &(&str, u64)) -> Ordering {
         }
     }
 
-    return Ordering::Equal
+    Ordering::Equal
 }

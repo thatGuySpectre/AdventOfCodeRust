@@ -5,7 +5,7 @@ pub struct Day06;
 
 impl Solution for Day06 {
     fn part_1(&self, input: &str) -> Answer {
-        let data: Vec<&str> = input.split("\n").collect();
+        let data: Vec<&str> = input.split('\n').collect();
         let times: Vec<u64> = data[0].split_whitespace().skip(1).map(|x| x.parse::<u64>().unwrap()).collect();
         let dists: Vec<u64> = data[1].split_whitespace().skip(1).map(|x| x.parse::<u64>().unwrap()).collect();
 
@@ -23,7 +23,7 @@ impl Solution for Day06 {
     }
 
     fn part_2(&self, input: &str) -> Answer {
-        let data: Vec<&str> = input.split("\n").collect();
+        let data: Vec<&str> = input.split('\n').collect();
         let time: u64 = data[0].split_whitespace().skip(1).collect::<Vec<&str>>().join("").parse::<u64>().unwrap();
         let dist: u64 = data[1].split_whitespace().skip(1).collect::<Vec<&str>>().join("").parse::<u64>().unwrap();
 

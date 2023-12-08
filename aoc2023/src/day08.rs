@@ -13,7 +13,7 @@ impl Solution for Day08 {
         let directions: HashMap<&str, (&str, &str)> = input.split_once("\n\n")
             .unwrap()
             .1
-            .split("\n")
+            .split('\n')
             .map(|line| {
                 let caps = re.captures(line).unwrap();
                 (caps.get(1).unwrap().as_str(), (caps.get(2).unwrap().as_str(), caps.get(3).unwrap().as_str()))
@@ -44,7 +44,7 @@ impl Solution for Day08 {
         let directions: HashMap<&str, (&str, &str)> = input.split_once("\n\n")
             .unwrap()
             .1
-            .split("\n")
+            .split('\n')
             .map(|line| {
                 let caps = re.captures(line).unwrap();
                 (caps.get(1).unwrap().as_str(), (caps.get(2).unwrap().as_str(), caps.get(3).unwrap().as_str()))
@@ -52,7 +52,7 @@ impl Solution for Day08 {
             .collect::<HashMap<&str, (&str, &str)>>();
 
         let mut curr: Vec<&str> = directions.keys()
-            .filter_map(|x| if x.chars().last() == Some('A') { Some(*x) } else { None })
+            .filter_map(|x| if x.ends_with('A') { Some(*x) } else { None })
             .collect();
 
         let mut steps: u64 = 0;
@@ -70,12 +70,12 @@ impl Solution for Day08 {
                 .collect();
 
             for i in 0..curr.len() {
-               if (period[i] == None && curr[i].chars().last() == Some('Z') ) {
+               if (period[i].is_none() && curr[i].ends_with('Z') ) {
                    period[i] = Some(steps);
                }
             }
 
-            if period.iter().all(|x| *x != None) {
+            if period.iter().all(|x| x.is_some()) {
                 break
             }
         }
@@ -104,12 +104,10 @@ fn gcd(mut n: u64, mut m: u64) -> u64 {
         // the smaller number
         if m < n {
             // initialize a temp variable
-            let temp = m;
-            m = n;
-            n = temp;
+            std::mem::swap(&mut m, &mut n);
         }
         // Get the divisor
-        m = m % n;
+        m %= n;
     }
     // return n aka the greatest common denominator
     n

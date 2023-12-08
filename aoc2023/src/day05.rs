@@ -43,7 +43,7 @@ impl Solution for Day05 {
         let blocks: Vec<&str> = input.split("\n\n")
             .collect();
 
-        let mut seeds: Vec<SeedRange> = blocks[0].split(" ")
+        let mut seeds: Vec<SeedRange> = blocks[0].split(' ')
             .skip(1)
             .collect::<Vec<&str>>()
             .chunks(2)
@@ -53,9 +53,9 @@ impl Solution for Day05 {
         let rule_blocks: Vec<Vec<Rule>> = blocks.iter()
             .skip(1)
             .map(
-                |block| block.split("\n").skip(1).map(
+                |block| block.split('\n').skip(1).map(
                     |line| {
-                        let l: Vec<&str> = line.split(" ").collect();
+                        let l: Vec<&str> = line.split(' ').collect();
                         Rule::from_rules(l[0].parse::<i64>().unwrap(), l[1].parse::<i64>().unwrap(), l[2].parse::<i64>().unwrap())
                     }
                 ).collect()
@@ -138,7 +138,7 @@ impl Rule {
     }
 
     fn from_rules(dest: i64, source: i64, range: i64) -> Rule {
-        Rule {start: source, end: source + range - 1, offset: (dest - source) as i64}
+        Rule {start: source, end: source + range - 1, offset: (dest - source)}
     }
 
     fn apply(&self, seeds: &SeedRange) -> Option<(Option<SeedRange>, SeedRange, Option<SeedRange>)> {

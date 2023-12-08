@@ -5,7 +5,7 @@ pub struct Day01;
 
 impl Solution for Day01 {
     fn part_1(&self, input: &str) -> Answer {
-        let words: Vec<&str> = input.split("\n")
+        let words: Vec<&str> = input.split('\n')
             .collect();
 
         let mut sum: u64 = 0;
@@ -14,9 +14,9 @@ impl Solution for Day01 {
             let mut first: Option<u64> = None;
             let mut last: Option<u64> = None;
             for char in word.chars() {
-                if char.is_digit(10) {
+                if char.is_ascii_digit() {
                     last = Some(char.to_digit(10).unwrap().into());
-                    if first == None {
+                    if first.is_none() {
                         first = Some(char.to_digit(10).unwrap().into());
                     }
                 }
@@ -29,7 +29,7 @@ impl Solution for Day01 {
     }
 
     fn part_2(&self, input: &str) -> Answer {
-        let words: Vec<&str> = input.split("\n")
+        let words: Vec<&str> = input.split('\n')
             .collect();
 
         let first = Regex::new(
@@ -40,7 +40,7 @@ impl Solution for Day01 {
         ).unwrap();
 
         Answer::from(words.iter()
-            .map(|word| {10 * matches(&first.captures(&word).unwrap()) + matches(&last.captures(&word).unwrap())})
+            .map(|word| {10 * matches(&first.captures(&word).unwrap()) + matches(&last.captures(word).unwrap())})
             .collect::<Vec<_>>()
             .iter()
             .sum::<u64>())
@@ -49,10 +49,7 @@ impl Solution for Day01 {
 
 fn matches(cap: &regex::Captures) -> u64 {
     for i in 1..10 {
-        match cap.get(i) {
-            Some(_) => return i as u64,
-            None  => (),
-        };
+        if cap.get(i).is_some() { return i as u64 };
     }
     return 0
 }

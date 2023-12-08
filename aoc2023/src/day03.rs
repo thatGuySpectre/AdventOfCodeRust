@@ -6,7 +6,7 @@ pub struct Day03;
 
 impl Solution for Day03 {
     fn part_1(&self, input: &str) -> Answer {
-        let lines: Vec<&str> = input.split("\n").collect();
+        let lines: Vec<&str> = input.split('\n').collect();
 
         let mut out: u64 = 0;
 
