@@ -51,14 +51,39 @@ impl Solution for Day03 {
 
         let mut out: u64 = 0;
 
-        for (i, line) in lines.iter().enumerate() {
+        let gear = Regex::new(r"\*").unwrap();
+        let num = Regex::new(r"\d+").unwrap();
 
+        for (i, line) in lines.iter().enumerate() {
+            for star in gear.find_iter(line) {
+                let prev = if i > 0 { lines.get(i - 1) } else { None };
+                let curr = lines.get(i);
+                let next = lines.get(i+1);
+
+                let mut nums: Vec<u64> = vec![];
+
+                if prev != None {
+                    for number in num.find_iter(prev.unwrap()) {
+                        if ((1.max(number.start())-1)..(number.end()+1)).contains(&star.start()) { nums.push(number.as_str().parse().unwrap()) }
+                    }
+                }
+                if curr != None {
+                    for number in num.find_iter(curr.unwrap()) {
+                        if ((1.max(number.start())-1)..(number.end()+1)).contains(&star.start()) { nums.push(number.as_str().parse().unwrap()) }
+                    }
+                }
+                if next != None {
+                    for number in num.find_iter(next.unwrap()) {
+                        if ((1.max(number.start())-1)..(number.end()+1)).contains(&star.start()) { nums.push(number.as_str().parse().unwrap()) }
+                    }
+                }
+
+                if nums.len() == 2 {
+                    out += nums[0] * nums[1]
+                }
+            }
         }
 
-        Answer::Unimplemented
+        Answer::from(out)
     }
-}
-
-fn extract_num(line: &str, pos: usize) -> u64 {
-    todo!()
 }
