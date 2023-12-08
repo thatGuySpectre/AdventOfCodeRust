@@ -1,18 +1,17 @@
 use shared::Solution;
-mod load_data;
 
 use aoc2023;
-use load_data::load;
+use shared::{load_actual};
 
 use std::time::Instant;
 
 fn main() {
     let now = Instant::now();
 
-    let Ok(data) = load(2023, 8)
+    let Ok(data) = load_actual(2023, 3)
         else { return; };
 
-    let result = aoc2023::day08::Day08.part_2(&data);
+    let result = aoc2023::day03::Day03.part_1(&data);
 
     let elapsed = now.elapsed();
 

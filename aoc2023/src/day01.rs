@@ -1,4 +1,4 @@
-use shared::{Answer, Solution};
+use shared::{Answer, load_test, Solution};
 use regex::{Regex};
 
 pub struct Day01;
@@ -56,3 +56,10 @@ fn matches(cap: &regex::Captures) -> u64 {
     }
     return 0
 }
+
+#[test]
+fn example() {
+    assert_eq!(Day01.part_1(load_test(2023, 1)?.as_str()), 142);
+    assert_eq!(Day01.part_2(load_test(2023, 1)?.as_str()), 281);
+}
+
