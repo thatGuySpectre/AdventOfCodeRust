@@ -9,10 +9,10 @@ use std::time::Instant;
 fn main() {
     let now = Instant::now();
 
-    let Ok(data) = load(2023, 5)
+    let Ok(data) = load(2023, 6)
         else { return; };
 
-    let result = aoc2023::day05::Day05.part_2(&data);
+    let result = aoc2023::day06::Day06.part_2(&data);
 
     let elapsed = now.elapsed();
 
