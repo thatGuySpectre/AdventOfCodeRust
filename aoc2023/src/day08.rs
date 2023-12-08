@@ -94,6 +94,7 @@ impl Solution for Day08 {
     }
 }
 
+// Shamelessly copied from https://rustycloud.org/_code_samples/gcd.html
 fn gcd(mut n: u64, mut m: u64) -> u64 {
     // Make sure that either number isn't 0
     assert!(n != 0 && m != 0);
