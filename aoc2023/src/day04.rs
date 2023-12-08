@@ -7,8 +7,8 @@ impl Solution for Day04 {
     fn part_1(&self, input: &str) -> Answer {
         let lines: Vec<&str> = input.split("\n").collect();
         let cards = lines.iter()
-            .map(|l| l.split_once(": ").
-                unwrap()
+            .map(|l| l.split_once(": ")
+                .unwrap()
                 .1
                 .split_once(" | ")
                 .unwrap())

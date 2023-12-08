@@ -34,8 +34,7 @@ impl Solution for Day08 {
                 return Answer::from(steps)
             }
         }
-
-        Answer::Unimplemented
+        panic!()
     }
 
     fn part_2(&self, input: &str) -> Answer {
