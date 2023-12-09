@@ -5,7 +5,7 @@ pub struct Day09;
 
 impl Solution for Day09 {
     fn part_1(&self, input: &str) -> Answer {
-        let lines = input.split("\n")
+        let lines = input.lines()
             .map(|l| l.split_whitespace().map(|x| x.parse::<i64>().unwrap()).collect()
             ).collect::<Vec<Vec<i64>>>();
 
@@ -15,7 +15,7 @@ impl Solution for Day09 {
     }
 
     fn part_2(&self, input: &str) -> Answer {
-        let lines = input.split("\n")
+        let lines = input.lines()
             .map(|l| l.split_whitespace().map(|x| x.parse::<i64>().unwrap()).rev().collect()
             ).collect::<Vec<Vec<i64>>>();
 
@@ -26,7 +26,7 @@ impl Solution for Day09 {
 }
 
 fn solve(seq: &Vec<i64>) -> i64 {
-    if seq.iter().all(|x| *x==0) {
+    if seq.iter().all(|&x| x==0) {
         return 0
     }
 
