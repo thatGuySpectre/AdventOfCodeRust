@@ -10,22 +10,22 @@ impl Solution for Day09 {
             ).collect::<Vec<Vec<i64>>>();
 
         Answer::from(
-            lines.iter().map(solve1).sum::<i64>()
+            lines.iter().map(solve).sum::<i64>()
         )
     }
 
     fn part_2(&self, input: &str) -> Answer {
         let lines = input.split("\n")
-            .map(|l| l.split_whitespace().map(|x| x.parse::<i64>().unwrap()).collect()
+            .map(|l| l.split_whitespace().map(|x| x.parse::<i64>().unwrap()).rev().collect()
             ).collect::<Vec<Vec<i64>>>();
 
         Answer::from(
-            lines.iter().map(solve2).sum::<i64>()
+            lines.iter().map(solve).sum::<i64>()
         )
     }
 }
 
-fn solve1(seq: &Vec<i64>) -> i64 {
+fn solve(seq: &Vec<i64>) -> i64 {
     if seq.iter().all(|x| *x==0) {
         return 0
     }
@@ -34,18 +34,5 @@ fn solve1(seq: &Vec<i64>) -> i64 {
         .map(|(a, b)| b - a )
         .collect();
 
-    return seq.last().unwrap() + solve1(&diffs)
+    return seq.last().unwrap() + solve(&diffs)
 }
-
-fn solve2(seq: &Vec<i64>) -> i64 {
-    if seq.iter().all(|x| *x==0) {
-        return 0
-    }
-
-    let diffs = zip(seq, seq.iter().skip(1))
-        .map(|(a, b)| b - a )
-        .collect();
-
-    return seq.first().unwrap() - solve2(&diffs)
-}
-
