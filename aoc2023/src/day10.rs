@@ -1,5 +1,4 @@
 use std::collections::HashSet;
-use std::ffi::c_ushort;
 use shared::{Solution, Answer};
 
 pub struct Day10;
