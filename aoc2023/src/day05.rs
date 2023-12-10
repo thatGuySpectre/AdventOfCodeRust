@@ -133,10 +133,6 @@ struct Rule {
 }
 
 impl Rule {
-    fn new(start: i64, end: i64, offset: i64) -> Rule {
-        Rule {start, end, offset}
-    }
-
     fn from_rules(dest: i64, source: i64, range: i64) -> Rule {
         Rule {start: source, end: source + range - 1, offset: (dest - source)}
     }
