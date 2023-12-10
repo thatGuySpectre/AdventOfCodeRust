@@ -52,12 +52,13 @@ impl Solution for Day10 {
         let mut total = 0;
 
         for (i, line) in grid.iter().enumerate() {
-            let mut parity = 0;
+            let mut parity = false;
             for (j, letter) in line.iter().enumerate() {
                 if in_loop.contains(&(i, j)) {
-                    parity += modify_parity(letter)
+                    if ['|', 'J', 'L'].contains(letter) { parity = !parity }
+                    continue
                 }
-                else if parity % 4 != 0 {
+                else if parity {
                     total += 1
                 }
             }
@@ -103,16 +104,5 @@ fn replace_animal(grid: &mut Vec<Vec<char>>, pos: &(usize, usize)) {
         (_, Some(x), _, Some(y)) if ['-', 'J', '7'].contains(x) && ['|', 'J', 'L'].contains(y) => 'F',
         (_, _, Some(x), Some(y)) if ['|', '7', 'F'].contains(x) && ['|', 'J', 'L'].contains(y) => '|',
         _ => unreachable!()
-    }
-}
-
-fn modify_parity(l: &char) -> i32 {
-    match l {
-        '|' => 2,
-        'L' => 1,
-        'J' => -1,
-        'F' => -1,
-        '7' => 1,
-        _ => 0
     }
 }
