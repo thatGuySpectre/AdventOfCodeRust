@@ -1,71 +1,74 @@
-use std::fmt::format;
+use std::iter;
 use std::iter::zip;
-use std::net::Shutdown::Read;
 use itertools::Itertools;
 use shared::{Solution, Answer};
-use regex::Regex;
-use shared::Answer::String;
 
 pub struct Day12;
 
 impl Solution for Day12 {
     fn part_1(&self, input: &str) -> Answer {
         let lines = input.lines()
-            .map(|x| x.split_once(' ').unwrap().0)
-            .collect::<Vec<&str>>();
-        let groups: Vec<Vec<i32>> = input.lines()
-            .map(|x| x.split_once(' ').unwrap().1.split(',').map(|y| y.parse::<i32>().unwrap()).collect())
+            .map(|x| x.split_once(' ').unwrap().0.chars().collect())
+            .collect::<Vec<Vec<char>>>();
+        let groups: Vec<Vec<u64>> = input.lines()
+            .map(|x| x.split_once(' ').unwrap().1.split(',').map(|y| y.parse::<u64>().unwrap()).collect())
             .collect();
 
         let mut out = 0;
 
         for (line, group) in zip(lines, groups) {
-            for pattern in generate_patterns(line.len() as i32, &group) {
-                if pattern.is_match(line) {
-                    out += 1;
-                }
-            }
-            println!("{out}");
+            out += solve(&line, &group)
         }
 
         Answer::from(out)
     }
 
     fn part_2(&self, input: &str) -> Answer {
-        Answer::Unimplemented
+        let lines = input.lines()
+            .map(|x| iter::repeat(x.split_once(' ').unwrap().0).take(5).join("?").chars().collect())
+            .collect::<Vec<Vec<char>>>();
+        let groups: Vec<Vec<u64>> = input.lines()
+            .map(|x| iter::repeat(
+                x.split_once(' ')
+                .unwrap().1
+                .split(',')
+                .map(|a| a.parse::<u64>().unwrap())
+            ).take(5)
+                .flatten()
+                .collect()
+            ).collect();
+
+        let mut out = 0;
+
+        for (line, group) in zip(lines, groups) {
+            out += solve(&line, &group)
+        }
+
+        Answer::from(out)
     }
 }
 
+fn solve(springs: &Vec<char>, groups: &Vec<u64>) -> u64 {
+    let n = springs.len();
+    let m = groups.len();
 
-fn generate_patterns(len_of_str: i32, groups: &Vec<i32>) -> Vec<Regex> {
-    let uncertain: i32 = len_of_str - groups.iter().sum::<i32>() - groups.len() as i32 + 1;
+    let mut possibilities: Vec<Vec<u64>> = vec![vec![0; m+1]; n+1];
 
-    let mut patterns: Vec<Regex> = vec![];
-    let possible_gaps = get_gaps(uncertain, groups.len() as i32 + 1);
+    possibilities[0][0] = 1;
 
-    for gaps in possible_gaps {
-        let mut pattern = format!("^[.?]{{{}}}[#?]{{{}}}", gaps.first().unwrap(), groups.first().unwrap());
-        for i in 1..groups.len() {
-            pattern.push_str(format!(r"[.?]{{{}}}[#?]{{{}}}", gaps[i] + 1, groups[i]).as_str())
-        }
-        pattern.push_str(format!("[.?]{{{}}}$", gaps.last().unwrap()).as_str());
-        patterns.push(Regex::new(pattern.as_str()).unwrap())
-    }
-
-    patterns
-}
-
-fn get_gaps(total: i32, parts: i32) -> Vec<Vec<i32>> {
-    if total == 0 { return vec![vec![0; parts as usize]] }
-    else if parts == 1 { return vec![vec![total]] }
-
-    let mut out: Vec<Vec<i32>> = vec![];
-
-    for i in 0..=total {
-        for mut sub in get_gaps(total - i, parts - 1) {
-            out.push({ sub.push(i); sub });
+    for i in 0..n {
+        for j in 0..=m {
+            if springs[i] != '#' {
+                possibilities[i+1][j] += possibilities[i][j];
+            }
+            if j < m
+                && (i + groups[j] as usize) <= n
+                && !springs[i..(i + groups[j] as usize)].contains(&'.')
+                && (i + groups[j] as usize >= n || springs[i + groups[j] as usize ] != '#') {
+                possibilities[(i + groups[j] as usize + 1).min(n)][j+1] += possibilities[i][j]
+            }
         }
     }
 
-    out
+    possibilities[n][m]
 }

@@ -11,7 +11,7 @@ fn main() {
     let Ok(data) = load_actual(2023, 12)
         else { panic!("No Input Data"); };
 
-    let result = aoc2023::day12::Day12.part_1(&data);
+    let result = aoc2023::day12::Day12.part_2(&data);
 
     let elapsed = now.elapsed();
 
